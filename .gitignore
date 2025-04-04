@@ -1,0 +1,21 @@
+# Node dependencies
+/node_modules
+
+# Logs
+logs
+*.log
+
+# Environment variables
+.env
+
+# Database dumps or temp files
+*.sql
+*.bak
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
