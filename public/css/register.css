@@ -383,17 +383,7 @@ main,
   color: #999;
 }
 
-.bottom-line {
-  text-align: center;
-  font-size: 14px;
-  margin-top: 15px;
-}
 
-.bottom-line a {
-  color: #1c74d4;
-  text-decoration: none;
-  font-weight: 600;
-}
 
 .legal-note {
   font-size: 12px;
@@ -535,4 +525,255 @@ button, .google-btn, .microsoft-btn, .join-btn, .signin-btn {
 
 .footer, .bottom-line, .divider, a {
   font-size: 13px;
+}
+
+/* Match email sign-in button font size */
+.email-btn {
+  font-size: 16px !important;
+}
+
+/* Larger font for join/sign-in links under forms */
+.footer-line, .bottom-line, .join-now-line {
+  font-size: 16px !important;
+  font-weight: 500;
+}
+
+/* Email sign-in button font size match */
+.email-btn {
+  font-size: 16px !important;
+}
+
+/* Uniform bottom-line font size, but only link bold */
+.footer-line, .bottom-line, .join-now-line {
+  font-size: 16px !important;
+  font-weight: 400;
+}
+
+.footer-line a, .bottom-line a, .join-now-line a {
+  font-weight: 600;
+}
+
+/* Make 'Sign in with email' same font size as other buttons */
+.email-btn {
+  font-size: 16px !important;
+  font-weight: 500;
+}
+
+/* Ensure only 'Join now' or 'Sign in' are bold, rest normal */
+.footer-line, .bottom-line, .join-now-line {
+  font-size: 16px !important;
+  font-weight: 400;
+}
+
+.footer-line a, .bottom-line a, .join-now-line a {
+  font-weight: 600;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.email-btn {
+  font-size: 16px;
+  font-weight: 500;
+  background-color: #f3f6f8;  /* Softer gray */
+  color: #0a66c2;
+  padding: 14px 20px;
+  width: 100%;
+  border-radius: 28px;
+  border: none;
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background-color 0.3s ease;
+}
+.email-btn:hover {
+  background-color: #e1e9ee;
+}
+.bottom-line {
+  font-size: 16px;
+  font-weight: 400;
+  display: block;
+  margin-top: 20px;
+  text-align: center;
+}
+.bottom-line a {
+  font-weight: 600;
+}
+
+
+.google-btn,
+.microsoft-btn {
+  transition: background-color 0.3s ease;
+}
+
+.google-btn:hover {
+  background-color: #e7f0fd;
+}
+
+.microsoft-btn:hover {
+  background-color: #333333;
+}
+
+input[type="checkbox"] + label {
+  font-size: 16px;
+  vertical-align: middle;
+  margin-left: 6px;
+}
+
+
+body, p, label, input, button, a, span {
+  font-size: 16px;
+}
+
+h1, h2 {
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.bottom-line {
+  font-size: 16px;
+  text-align: center;
+  margin-top: 20px;
+}
+.bottom-line a {
+  font-weight: 600;
+}
+
+.email-btn {
+  font-size: 16px;
+  font-weight: 500;
+  background-color: #f3f6f8;
+  color: #0a66c2;
+  padding: 14px 20px;
+  width: 100%;
+  border-radius: 28px;
+  border: none;
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.email-btn:hover {
+  background-color: #e1e9ee;
+}
+
+.google-btn:hover {
+  background-color: #e7f0fd;
+}
+.microsoft-btn:hover {
+  background-color: #333333;
+}
+
+
+/* Ensure consistent body font size */
+body, p, label, input, button, a, span {
+  font-size: 16px;
+}
+
+/* Headings */
+h1, h2 {
+  font-size: 32px;
+  font-weight: 600;
+}
+
+/* Bottom links ("New to WorkMates? Join now") */
+.bottom-line {
+  font-size: 16px;
+  text-align: center;
+  margin-top: 20px;
+}
+.bottom-line a {
+  font-weight: 600 !important;
+}
+
+/* Email button */
+.email-btn {
+  font-size: 16px;
+  font-weight: 500;
+  background-color: #f3f6f8;
+  color: #0a66c2;
+  padding: 14px 20px;
+  width: 100%;
+  border-radius: 28px;
+  border: none;
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.email-btn:hover {
+  background-color: #e1e9ee;
+}
+
+/* Social buttons hover */
+.google-btn:hover {
+  background-color: #e7f0fd;
+}
+.microsoft-btn:hover {
+  background-color: #333333;
+}
+
+
+.google-btn, .microsoft-btn, .email-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 20px;
+  border-radius: 30px;
+  font-size: 16px;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  font-family: 'Segoe UI', sans-serif;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.google-btn {
+  background-color: white;
+  border: 1px solid #ccc;
+}
+.google-btn:hover {
+  background-color: #f2f2f2;
+}
+
+.microsoft-btn {
+  background-color: #1c1c1c;
+  color: white;
+}
+.microsoft-btn:hover {
+  background-color: #333;
+}
+
+.email-btn {
+  background-color: #e4e6e9;
+  color: #1c74d4;
+}
+.email-btn:hover {
+  background-color: #d0d3d6;
+}
+
+.checkbox-label {
+  font-size: 15px;
+}
+
+.auth-switch {
+  font-size: 15px;
+}
+.auth-switch a {
+  font-weight: bold;
+  text-decoration: none;
 }
