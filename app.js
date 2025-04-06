@@ -1,4 +1,5 @@
 // app.js
+
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -15,11 +16,11 @@ app.use(express.urlencoded({ extended: true })); // Handle form data
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
-const authRoutes = require('./routes/authRoutes'); // make sure this file exists
-const userRoutes = require('./routes/userRoutes'); // optional, if created
+const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes); // can comment out if not ready yet
+app.use('/api/users', userRoutes);
 
 // 404 for unknown routes
 app.use((req, res) => {

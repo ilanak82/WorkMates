@@ -1,20 +1,21 @@
 // config/db.js
+
 const sql = require('mssql');
 
 const config = {
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    server: process.env.DB_SERVER, // e.g., localhost
+    server: process.env.DB_SERVER,
     database: process.env.DB_NAME,
     options: {
-        encrypt: true, // set to true if you're using Azure or remote server
-        trustServerCertificate: true, // set to true for localhost
+        encrypt: true, // Set to true if you're using Azure or remote server
+        trustServerCertificate: true, // Set to true for localhost
     },
     port: parseInt(process.env.DB_PORT || '1433'),
     pool: {
         max: 10,
         min: 0,
-        idleTimeoutMillis: 30000,
+        idleTimeoutMillis: 30000, // Close idle connections after 30 seconds
     },
 };
 
