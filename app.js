@@ -4,25 +4,28 @@ const express = require('express');
 const app = express();
 const path = require('path');
 require('dotenv').config();
+const cookieParser = require("cookie-parser");
 
-// Connect to database
-const db = require('./config/db');
+// Middleware: cookie and body parsing
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Middleware to parse request bodies
-app.use(express.json()); // Handle JSON
-app.use(express.urlencoded({ extended: true })); // Handle form data
-
-// Serve static files from /public (HTML/CSS/JS)
+// Serve static files from /public
 app.use(express.static(path.join(__dirname, 'public')));
+
+// 💡 Use DB middleware
+const attachDb = require('./middlewares/dbMiddleware');
+app.use(attachDb);
 
 // Routes
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 
 app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
+app.use('/api/user', userRoutes);
 
-// 404 for unknown routes
+// 404 handler
 app.use((req, res) => {
     res.status(404).json({ message: 'Route not found' });
 });
