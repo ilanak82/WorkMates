@@ -1,0 +1,379 @@
+/* === Reset and Base === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f9;
+  display: flex;
+  flex-direction: column;
+}
+
+/* === Navbar === */
+.navbar {
+  width: 100%;
+  background-color: #1c74d4;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  height: 64px;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1000;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navbar-brand img.logo {
+  height: 40px;
+}
+
+.navbar-icons {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.navbar-icons .navbar-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 14px;
+  color: white;
+}
+
+.navbar-icons .navbar-icon i {
+  font-size: 24px;
+}
+
+.navbar-divider {
+  width: 1px;
+  height: 30px;
+  background-color: white;
+  margin: 0 15px;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  height: 100%;
+  padding-bottom: 10px;
+  /* Fix vertical alignment */
+}
+
+.navbar-links .join-btn,
+.navbar-links .signin-btn {
+  white-space: nowrap;
+  font-weight: bold;
+  border-radius: 20px;
+  padding: 8px 16px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.navbar-links .join-btn {
+  background-color: transparent;
+  color: white;
+  border: none;
+}
+
+.navbar-links .join-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.navbar-links .signin-btn {
+  background-color: white;
+  color: #1c74d4;
+  border: none;
+}
+
+.navbar-links .signin-btn:hover {
+  background-color: #f0f0f0;
+}
+
+/* === Footer === */
+.footer {
+  background-color: #1c74d4;
+  color: white;
+  text-align: center;
+  padding: 8px 0;
+  font-size: 13px;
+  width: 100%;
+  margin-top: auto;
+}
+
+.footer a {
+  color: white;
+  text-decoration: underline;
+  margin: 0 6px;
+}
+
+/* === Index Page Layout === */
+.landing {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px;
+  gap: 50px;
+  flex: 1;
+}
+
+.landing-left img {
+  max-width: 100%;
+  height: auto;
+}
+
+.landing-right {
+  max-width: 500px;
+}
+
+.landing-right h1 {
+  color: #1c74d4;
+  font-size: 32px;
+  font-weight: 700;
+  margin-top: 0;
+}
+
+.landing-right p {
+  font-size: 16px;
+  margin-bottom: 20px;
+  font-weight: 400;
+}
+
+.auth-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* === Form Containers === */
+.container {
+  max-width: 400px;
+  margin: 100px auto 80px;
+  padding: 30px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex: 1;
+}
+
+.register-box p {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+.form-options {
+  display: flex;
+  justify-content: flex-start;
+  margin: 10px 0;
+}
+
+.form-options a {
+  font-size: 14px;
+}
+
+/* === Buttons === */
+button,
+.google-btn,
+.microsoft-btn,
+.email-btn,
+.signin-btn,
+.join-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  padding: 14px 20px;
+  border-radius: 30px;
+  font-family: 'Segoe UI', sans-serif;
+  width: 100%;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.google-btn {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  color: #333;
+}
+
+.google-btn:hover {
+  background-color: #f2f2f2;
+}
+
+.microsoft-btn {
+  background-color: #1c1c1c;
+  color: white;
+}
+
+.microsoft-btn:hover {
+  background-color: #333;
+}
+
+.email-btn {
+  background-color: #e4e6e9;
+  color: #1c74d4;
+  font-weight: 500;
+}
+
+.email-btn:hover {
+  background-color: #d0d3d6;
+}
+
+.signin-btn,
+.join-btn {
+  background-color: #1c74d4;
+  color: white;
+  font-weight: 500;
+}
+
+.signin-btn:hover,
+.join-btn:hover {
+  background-color: #1558a0;
+}
+
+.google-btn img,
+.microsoft-btn img {
+  height: 20px;
+  margin-right: 10px;
+}
+
+/* === Checkbox Alignment === */
+.remember-group,
+.form-group.remember-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-start;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.checkbox-label {
+  font-size: 16px;
+  cursor: pointer;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #0a66c2;
+  border-color: #0a66c2;
+}
+
+input[type="checkbox"]:checked::after {
+  content: "✓";
+  color: white;
+  position: absolute;
+  font-size: 14px;
+  left: 3px;
+  top: -1px;
+}
+
+/* === Divider === */
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #999;
+  margin: 20px 0;
+  font-size: 14px;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #ccc;
+}
+
+.divider::before {
+  margin-right: 10px;
+}
+
+.divider::after {
+  margin-left: 10px;
+}
+
+/* === Legal Note === */
+.legal-note {
+  font-size: 12px !important;
+  color: #555;
+  text-align: center;
+  max-width: 400px;
+  margin: 10px auto 0;
+  line-height: 1.4;
+  font-weight: 400;
+}
+
+.legal-note a {
+  color: #1c74d4;
+  text-decoration: underline;
+  font-weight: 400;
+}
+
+/* === Auth Switch === */
+.bottom-line {
+  font-size: 16px;
+  font-weight: 400;
+  display: block;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.bottom-line a {
+  font-weight: 600;
+  text-decoration: none;
+}
