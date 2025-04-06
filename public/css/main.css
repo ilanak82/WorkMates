@@ -68,6 +68,7 @@ body {
   height: 30px;
   background-color: white;
   margin: 0 15px;
+  flex-shrink: 0;
 }
 
 .navbar-links {
@@ -133,11 +134,12 @@ body {
 /* === Index Page Layout === */
 .landing {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 40px;
-  gap: 50px;
-  flex: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 60px;
 }
 
 .landing-left img {
@@ -380,4 +382,26 @@ input[type="checkbox"]:checked::after {
 .bottom-line a {
   font-weight: 600;
   text-decoration: none;
+}
+
+/* === Final navbar divider & icon fix (keep both dividers visually equal) === */
+.navbar-divider {
+  width: 1px;
+  height: 30px;
+  background-color: white;
+  margin-left: 12px;
+  margin-right: 12px;
+  flex-shrink: 0;
+  display: block;
+}
+
+.navbar-icons .navbar-icon {
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  font-size: 13px;
+  line-height: 1;
 }
