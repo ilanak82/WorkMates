@@ -1,3 +1,6 @@
+import { validateRegistration } from "./utils/validators.js";
+import { apiPostFormData } from "./utils/api.js";
+
 document.addEventListener("DOMContentLoaded", () => {
   // === Navbar ===
   const navbar = document.createElement("nav");
@@ -44,8 +47,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const form = document.createElement("form");
   form.id = "registerForm";
+  form.enctype = "multipart/form-data";
 
-  // Utility to create input group
+  const errorList = document.createElement("ul");
+  errorList.id = "formErrors";
+  errorList.className = "form-errors";
+  form.appendChild(errorList);
+
   const createInputGroup = (labelText, name, type = "text", required = true) => {
     const group = document.createElement("div");
     group.className = "form-group";
@@ -62,7 +70,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return group;
   };
 
-  // === Input fields
   const firstNameGroup = createInputGroup("First Name", "fName");
   const lastNameGroup = createInputGroup("Last Name", "lName");
   const usernameGroup = createInputGroup("Username", "username");
@@ -70,9 +77,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const passwordGroup = createInputGroup("Password", "password", "password");
   const confirmGroup = createInputGroup("Confirm Password", "confirmPassword", "password");
   const birthDateGroup = createInputGroup("Birth Date", "birthDate", "date", false);
-  const pictureGroup = createInputGroup("Profile Picture URL (optional)", "picture", "text", false);
 
-  // === Remember Me
+  const pictureGroup = document.createElement("div");
+  pictureGroup.className = "form-group";
+  const pictureLabel = document.createElement("label");
+  pictureLabel.textContent = "Profile Picture (optional)";
+  const pictureInput = document.createElement("input");
+  pictureInput.type = "file";
+  pictureInput.name = "profilePic";
+  pictureInput.accept = "image/*";
+  pictureGroup.append(pictureLabel, pictureInput);
+
   const rememberGroup = document.createElement("div");
   rememberGroup.className = "form-group remember-group";
 
@@ -87,7 +102,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   rememberGroup.append(rememberInput, rememberLabel);
 
-  // === Legal Note
   const legalNote = document.createElement("p");
   legalNote.className = "legal-note";
   legalNote.innerHTML = `
@@ -95,7 +109,6 @@ document.addEventListener("DOMContentLoaded", () => {
     <a href="#">User Agreement</a>, <a href="#">Privacy Policy</a>, and <a href="#">Cookie Policy</a>.
   `;
 
-  // === Submit Button
   const buttonWrapper = document.createElement("div");
   buttonWrapper.className = "form-group button-wrapper";
 
@@ -106,7 +119,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   buttonWrapper.appendChild(joinBtn);
 
-  // === Divider + Third-party buttons
   const divider = document.createElement("div");
   divider.className = "divider";
   divider.textContent = "or";
@@ -125,16 +137,14 @@ document.addEventListener("DOMContentLoaded", () => {
     Continue with Microsoft
   `;
 
-  // === Bottom line
   const bottomLine = document.createElement("div");
   bottomLine.className = "bottom-line";
   bottomLine.innerHTML = `
-  <span class="auth-switch">
-    Already on WorkMates? <a href="login.html"><strong>Sign in</strong></a>
-  </span>
-`;
+    <span class="auth-switch">
+      Already on WorkMates? <a href="login.html"><strong>Sign in</strong></a>
+    </span>
+  `;
 
-  // === Assemble the form
   form.append(
     firstNameGroup,
     lastNameGroup,
@@ -157,7 +167,6 @@ document.addEventListener("DOMContentLoaded", () => {
   wrapper.appendChild(box);
   document.body.appendChild(wrapper);
 
-  // === Footer ===
   const footer = document.createElement("footer");
   footer.className = "footer";
   footer.innerHTML = `
@@ -175,4 +184,49 @@ document.addEventListener("DOMContentLoaded", () => {
     </p>
   `;
   document.body.appendChild(footer);
+
+  // === Form Submission
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+
+    const errors = validateRegistration({
+      firstName: formData.get("fName"),
+      lastName: formData.get("lName"),
+      username: formData.get("username"),
+      email: formData.get("email"),
+      password: formData.get("password"),
+      confirmPassword: formData.get("confirmPassword"),
+      birthDate: formData.get("birthDate"),
+      profilePicUrl: ""
+    });
+
+    const errorBox = document.getElementById("formErrors");
+    if (errorBox) errorBox.innerHTML = "";
+
+    if (errors.length > 0) {
+      errors.forEach((err) => {
+        const li = document.createElement("li");
+        li.textContent = err;
+        errorBox.appendChild(li);
+      });
+      return;
+    }
+
+    try {
+      const result = await apiPostFormData("/api/auth/register", formData);
+
+      if (!result.success) {
+        alert(result.error || "Registration failed");
+        return;
+      }
+
+      alert("Registered successfully!");
+      window.location.href = "/login.html";
+    } catch (err) {
+      console.error("Register error:", err);
+      alert("Something went wrong. Please try again later.");
+    }
+  });
 });

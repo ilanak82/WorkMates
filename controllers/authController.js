@@ -1,71 +1,51 @@
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+// controllers/authController.js
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const { getUserByUsername, createUser } = require('../repositories/userRepository');
 
-const registerUser = async (req, res) => {
+const JWT_SECRET = process.env.JWT_SECRET;
+
+async function registerUser(req, res) {
     try {
-        const { username, fname, lname, email, password, birthDate, address, picture } = req.body;
-
-        if (!username || !fname || !lname || !email || !password || !birthDate || !address || !picture) {
-            return res.status(400).json({ message: "All fields are required" });
-        }
+        const { username, email, password } = req.body;
+        const existingUser = await getUserByUsername(username);
+        if (existingUser) return res.status(400).json({ error: 'Username already exists' });
 
         const hashedPassword = await bcrypt.hash(password, 10);
+        await createUser({ username, email, password: hashedPassword });
 
-        await req.db.request()
-            .input("username", username)
-            .input("fName", fname)
-            .input("lName", lname)
-            .input("email", email)
-            .input("password", hashedPassword)
-            .input("birthDate", birthDate)
-            .input("address", address)
-            .input("picture", picture)
-            .execute("spAddUser");
-
-        res.status(201).json({ message: "User registered successfully" });
+        res.status(201).json({ message: 'User registered successfully' });
     } catch (err) {
-        console.error("Register error:", err);
-        res.status(500).json({ message: "Registration failed" });
+        console.error('Register Error:', err);
+        res.status(500).json({ error: 'Server error' });
     }
-};
+}
 
-const loginUser = async (req, res) => {
+async function loginUser(req, res) {
     try {
-        const { email, password } = req.body;
+        const { username, password } = req.body;
+        const user = await getUserByUsername(username);
+        if (!user) return res.status(400).json({ error: 'Invalid credentials' });
 
-        const result = await req.db.request()
-            .input("email", email)
-            .execute("spGetUserForLogin");
+        const match = await bcrypt.compare(password, user.password);
+        if (!match) return res.status(400).json({ error: 'Invalid credentials' });
 
-        const user = result.recordset[0];
-        if (!user) return res.status(401).json({ message: "Invalid credentials" });
-
-        const passwordMatch = await bcrypt.compare(password, user.password);
-        if (!passwordMatch) return res.status(401).json({ message: "Invalid credentials" });
-
-        const token = jwt.sign({ id: user.UserID }, process.env.JWT_SECRET, { expiresIn: "1d" });
-
-        res.cookie("token", token, {
-            httpOnly: true,
-            maxAge: 24 * 60 * 60 * 1000, // 1 day
-        });
-
-        res.status(200).json({
-            message: "Login successful",
-            user: {
-                username: user.username,
-                email: user.email
-            }
-        });
+        const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, { expiresIn: '1d' });
+        res.cookie('token', token, { httpOnly: true, sameSite: 'Lax' });
+        res.status(200).json({ message: 'Login successful' });
     } catch (err) {
-        console.error("Login error:", err);
-        res.status(500).json({ message: "Login failed" });
+        console.error('Login Error:', err);
+        res.status(500).json({ error: 'Server error' });
     }
-};
+}
 
-const logoutUser = (req, res) => {
-    res.clearCookie("token");
-    res.status(200).json({ message: "Logged out successfully" });
-};
+function logoutUser(req, res) {
+    res.clearCookie('token');
+    res.status(200).json({ message: 'Logged out' });
+}
 
-module.exports = { registerUser, loginUser, logoutUser };
+module.exports = {
+    registerUser,
+    loginUser,
+    logoutUser
+};

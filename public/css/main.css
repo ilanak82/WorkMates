@@ -382,8 +382,9 @@ input[type="checkbox"]:checked::after {
 }
 
 .bottom-line a {
-  font-weight: 600;
-  text-decoration: none;
+  font-weight: 400;
+  color: #1c74d4;
+  text-decoration: underline;
 }
 
 /* === Final navbar divider & icon fix (keep both dividers visually equal) === */
