@@ -1,8 +1,10 @@
+// public/js/logout.js
 document.addEventListener("DOMContentLoaded", () => {
   const logoutBtn = document.createElement("button");
   logoutBtn.textContent = "Log out";
   logoutBtn.className = "logout-btn";
-  document.body.appendChild(logoutBtn); // You can append this to a navbar or menu
+  // Append the logout button; consider placing it in a designated area like the navbar if needed
+  document.body.appendChild(logoutBtn);
 
   logoutBtn.addEventListener("click", async () => {
     try {

@@ -1,30 +1,9 @@
+// public/js/index.js
+import { createNavbar, createFooter } from "./utils/layout.js";
+
 document.addEventListener("DOMContentLoaded", () => {
   // === Navbar ===
-  const navbar = document.createElement("nav");
-  navbar.className = "navbar";
-  navbar.innerHTML = `
-    <div class="navbar-left">
-      <div class="navbar-brand">
-        <a href="index.html">
-          <img class="logo" src="img/logo.png" alt="WorkMates Logo">
-        </a>
-      </div>
-      <div class="navbar-icons">
-        <div class="navbar-divider"></div>
-        <a href="/jobs" class="navbar-icon">
-          <i class="fa-solid fa-suitcase"></i><span>Jobs</span>
-        </a>
-        <div class="navbar-divider"></div>
-        <a href="/people" class="navbar-icon">
-          <i class="fa-solid fa-users"></i><span>People</span>
-        </a>
-      </div>
-    </div>
-    <div class="navbar-links">
-      <a href="register.html" class="join-btn">Join now</a>
-      <a href="login.html" class="signin-btn">Sign in</a>
-    </div>
-  `;
+  const navbar = createNavbar();
   document.body.appendChild(navbar);
 
   // === Landing Section ===
@@ -37,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const image = document.createElement("img");
   image.src = "img/main-visual.png";
   image.alt = "WorkMates illustration";
-  landingLeft.style.marginRight = '40px';
+  landingLeft.style.marginRight = "40px";
   landingLeft.appendChild(image);
 
   // Right side content
@@ -48,7 +27,8 @@ document.addEventListener("DOMContentLoaded", () => {
   heading.textContent = "Work smarter. Connect faster.";
 
   const subtext = document.createElement("p");
-  subtext.textContent = "Join WorkMates and take your professional journey to the next level. Connect, grow, and discover new job opportunities with ease.";
+  subtext.textContent =
+    "Join WorkMates and take your professional journey to the next level. Connect, grow, and discover new job opportunities with ease.";
 
   const buttonContainer = document.createElement("div");
   buttonContainer.className = "auth-buttons";
@@ -91,28 +71,20 @@ document.addEventListener("DOMContentLoaded", () => {
     </span>
   `;
 
-  // Append all elements in exact order
-  buttonContainer.append(googleBtn, microsoftBtn, divider, emailBtn, legalNote, bottomLine);
+  // Append elements in correct order
+  buttonContainer.append(
+    googleBtn,
+    microsoftBtn,
+    divider,
+    emailBtn,
+    legalNote,
+    bottomLine
+  );
   landingRight.append(heading, subtext, buttonContainer);
   landing.append(landingLeft, landingRight);
   document.body.appendChild(landing);
 
   // === Footer ===
-  const footer = document.createElement("footer");
-  footer.className = "footer";
-  footer.innerHTML = `
-    <p>
-      © 2025 WorkMates ·
-      <a href="#">About</a> ·
-      <a href="#">Contact</a> ·
-      <a href="#">Terms</a> ·
-      <label for="language">🌐 Language:</label>
-      <select id="language" name="language">
-        <option value="en">English</option>
-        <option value="he">עברית</option>
-        <option value="ar">العربية</option>
-      </select>
-    </p>
-  `;
+  const footer = createFooter();
   document.body.appendChild(footer);
 });

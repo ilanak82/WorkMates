@@ -1,38 +1,14 @@
+// public/js/login.js
+import { createNavbar, createFooter, createContainer } from "./utils/layout.js";
+
 document.addEventListener("DOMContentLoaded", () => {
   // === Navbar ===
-  const navbar = document.createElement("nav");
-  navbar.className = "navbar";
-  navbar.innerHTML = `
-    <div class="navbar-left">
-      <div class="navbar-brand">
-        <a href="index.html">
-          <img class="logo" src="img/logo.png" alt="WorkMates Logo">
-        </a>
-      </div>
-      <div class="navbar-icons">
-        <div class="navbar-divider"></div>
-        <a href="/jobs" class="navbar-icon">
-          <i class="fa-solid fa-suitcase"></i><span>Jobs</span>
-        </a>
-        <div class="navbar-divider"></div>
-        <a href="/people" class="navbar-icon">
-          <i class="fa-solid fa-users"></i><span>People</span>
-        </a>
-      </div>
-    </div>
-    <div class="navbar-links">
-      <a href="register.html" class="join-btn">Join now</a>
-      <a href="login.html" class="signin-btn">Sign in</a>
-    </div>
-  `;
+  const navbar = createNavbar();
   document.body.appendChild(navbar);
 
-  // === Login Wrapper ===
-  const wrapper = document.createElement("div");
-  wrapper.className = "login-wrapper";
-
-  const box = document.createElement("div");
-  box.className = "login-box container";
+  // === Login Wrapper using our container utility ===
+  const { wrapper, box } = createContainer("login-wrapper", "login-box container");
+  // Set custom margins (if not already set in createContainer)
   box.style.marginTop = "100px";
   box.style.marginBottom = "60px";
 
@@ -40,7 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
   heading.textContent = "Welcome Back";
 
   const subtext = document.createElement("p");
-  subtext.textContent = "Log in to stay connected with your professional network.";
+  subtext.textContent =
+    "Log in to stay connected with your professional network.";
 
   const form = document.createElement("form");
   form.id = "loginForm";
@@ -124,12 +101,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const bottomLine = document.createElement("div");
   bottomLine.className = "bottom-line";
   bottomLine.innerHTML = `
-  <span class="auth-switch">
-    New to WorkMates? <a href="register.html"><strong>Join now</strong></a>
-  </span>
-`;
+    <span class="auth-switch">
+      New to WorkMates? <a href="register.html"><strong>Join now</strong></a>
+    </span>
+  `;
 
-  // Append everything in correct order
+  // Append form elements in order
   form.append(
     googleBtn,
     microsoftBtn,
@@ -147,21 +124,6 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.appendChild(wrapper);
 
   // === Footer ===
-  const footer = document.createElement("footer");
-  footer.className = "footer";
-  footer.innerHTML = `
-    <p>
-      © 2025 WorkMates ·
-      <a href="#">About</a> ·
-      <a href="#">Contact</a> ·
-      <a href="#">Terms</a> ·
-      <label for="language">🌐 Language:</label>
-      <select id="language" name="language">
-        <option value="en">English</option>
-        <option value="he">עברית</option>
-        <option value="ar">العربية</option>
-      </select>
-    </p>
-  `;
+  const footer = createFooter();
   document.body.appendChild(footer);
 });

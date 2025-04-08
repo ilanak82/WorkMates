@@ -1,41 +1,16 @@
-import { validateRegistration } from "./utils/validators.js";
+// public/js/register.js
+import { createNavbar, createFooter, createContainer } from "./utils/layout.js";
 import { apiPostFormData } from "./utils/api.js";
 
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOM fully loaded");
+
   // === Navbar ===
-  const navbar = document.createElement("nav");
-  navbar.className = "navbar";
-  navbar.innerHTML = `
-    <div class="navbar-left">
-      <div class="navbar-brand">
-        <a href="index.html">
-          <img class="logo" src="img/logo.png" alt="WorkMates Logo">
-        </a>
-      </div>
-      <div class="navbar-icons">
-        <div class="navbar-divider"></div>
-        <a href="/jobs" class="navbar-icon">
-          <i class="fa-solid fa-suitcase"></i><span>Jobs</span>
-        </a>
-        <div class="navbar-divider"></div>
-        <a href="/people" class="navbar-icon">
-          <i class="fa-solid fa-users"></i><span>People</span>
-        </a>
-      </div>
-    </div>
-    <div class="navbar-links">
-      <a href="register.html" class="join-btn">Join now</a>
-      <a href="login.html" class="signin-btn">Sign in</a>
-    </div>
-  `;
+  const navbar = createNavbar();
   document.body.appendChild(navbar);
 
-  // === Register Wrapper ===
-  const wrapper = document.createElement("div");
-  wrapper.className = "register-wrapper";
-
-  const box = document.createElement("div");
-  box.className = "register-box container";
+  // === Register Wrapper using container utility ===
+  const { wrapper, box } = createContainer("register-wrapper", "register-box container");
   box.style.marginTop = "100px";
   box.style.marginBottom = "60px";
 
@@ -54,40 +29,105 @@ document.addEventListener("DOMContentLoaded", () => {
   errorList.className = "form-errors";
   form.appendChild(errorList);
 
-  const createInputGroup = (labelText, name, type = "text", required = true) => {
-    const group = document.createElement("div");
-    group.className = "form-group";
+  // === Email Field ===
+  const emailGroup = document.createElement("div");
+  emailGroup.className = "form-group";
 
-    const label = document.createElement("label");
-    label.textContent = labelText;
+  const emailLabel = document.createElement("label");
+  emailLabel.setAttribute("for", "email");
+  emailLabel.textContent = "Email";
 
-    const input = document.createElement("input");
-    input.name = name;
-    input.type = type;
-    if (required) input.required = true;
+  const emailInput = document.createElement("input");
+  emailInput.name = "email";
+  emailInput.type = "email";
+  emailInput.id = "email";
+  emailInput.placeholder = "your@email.com";
+  emailInput.required = true;
 
-    group.append(label, input);
-    return group;
-  };
+  // Error message span for email
+  const emailError = document.createElement("span");
+  emailError.className = "error-message";
+  emailError.style.display = "none";
+  emailGroup.append(emailLabel, emailInput, emailError);
 
-  const firstNameGroup = createInputGroup("First Name", "fName");
-  const lastNameGroup = createInputGroup("Last Name", "lName");
-  const usernameGroup = createInputGroup("Username", "username");
-  const emailGroup = createInputGroup("Email", "email", "email");
-  const passwordGroup = createInputGroup("Password", "password", "password");
-  const confirmGroup = createInputGroup("Confirm Password", "confirmPassword", "password");
-  const birthDateGroup = createInputGroup("Birth Date", "birthDate", "date", false);
+  // Validate email on blur
+  emailInput.addEventListener("blur", () => {
+    const value = emailInput.value.trim();
+    if (!value) {
+      emailError.textContent = "Please enter your email address.";
+      emailError.style.display = "block";
+      emailInput.classList.add("invalid-input");
+    } else if (!/^\S+@\S+\.\S+$/.test(value)) {
+      emailError.textContent = "Please enter a valid email address.";
+      emailError.style.display = "block";
+      emailInput.classList.add("invalid-input");
+    } else {
+      emailError.textContent = "";
+      emailError.style.display = "none";
+      emailInput.classList.remove("invalid-input");
+    }
+  });
 
-  const pictureGroup = document.createElement("div");
-  pictureGroup.className = "form-group";
-  const pictureLabel = document.createElement("label");
-  pictureLabel.textContent = "Profile Picture (optional)";
-  const pictureInput = document.createElement("input");
-  pictureInput.type = "file";
-  pictureInput.name = "profilePic";
-  pictureInput.accept = "image/*";
-  pictureGroup.append(pictureLabel, pictureInput);
+  // === Password Field with Eye Icon ===
+  const passwordGroup = document.createElement("div");
+  passwordGroup.className = "form-group password-group";
 
+  const passwordLabel = document.createElement("label");
+  passwordLabel.setAttribute("for", "password");
+  passwordLabel.textContent = "Password";
+
+  const passwordInput = document.createElement("input");
+  passwordInput.name = "password";
+  passwordInput.type = "password";
+  passwordInput.id = "password";
+  passwordInput.placeholder = "At least 8 characters";
+  passwordInput.required = true;
+
+  // Error message span for password
+  const passwordError = document.createElement("span");
+  passwordError.className = "error-message";
+  passwordError.style.display = "none";
+
+  // Container for password input and eye icon
+  const passwordContainer = document.createElement("div");
+  passwordContainer.className = "password-container";
+  passwordContainer.append(passwordInput);
+  const passwordEyeIcon = document.createElement("span");
+  passwordEyeIcon.className = "password-eye-icon";
+  passwordEyeIcon.innerHTML = `<i class="fa fa-eye"></i>`;
+  passwordContainer.append(passwordEyeIcon);
+  passwordGroup.append(passwordLabel, passwordContainer, passwordError);
+
+  // Validate password on blur
+  passwordInput.addEventListener("blur", () => {
+    const value = passwordInput.value;
+    if (!value) {
+      passwordError.textContent = "Please enter your password.";
+      passwordError.style.display = "block";
+      passwordInput.classList.add("invalid-input");
+    } else if (value.length < 8) {
+      passwordError.textContent = "Password must be at least 8 characters.";
+      passwordError.style.display = "block";
+      passwordInput.classList.add("invalid-input");
+    } else {
+      passwordError.textContent = "";
+      passwordError.style.display = "none";
+      passwordInput.classList.remove("invalid-input");
+    }
+  });
+
+  // Toggle password visibility
+  passwordEyeIcon.addEventListener("click", () => {
+    if (passwordInput.type === "password") {
+      passwordInput.type = "text";
+      passwordEyeIcon.innerHTML = `<i class="fa fa-eye-slash"></i>`;
+    } else {
+      passwordInput.type = "password";
+      passwordEyeIcon.innerHTML = `<i class="fa fa-eye"></i>`;
+    }
+  });
+
+  // === Remember Me ===
   const rememberGroup = document.createElement("div");
   rememberGroup.className = "form-group remember-group";
 
@@ -99,16 +139,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const rememberLabel = document.createElement("label");
   rememberLabel.setAttribute("for", "remember");
   rememberLabel.innerHTML = `<span class="checkbox-label">Remember me</span>`;
-
   rememberGroup.append(rememberInput, rememberLabel);
 
+  // === Legal Terms ===
   const legalNote = document.createElement("p");
   legalNote.className = "legal-note";
-  legalNote.innerHTML = `
-    By clicking Continue to join or sign in, you agree to WorkMates’
-    <a href="#">User Agreement</a>, <a href="#">Privacy Policy</a>, and <a href="#">Cookie Policy</a>.
-  `;
+  legalNote.innerHTML = `By clicking Continue to join or sign in, you agree to WorkMates’ <a href="#">User Agreement</a>, <a href="#">Privacy Policy</a>, and <a href="#">Cookie Policy</a>.`;
 
+  // === Submit Button ===
   const buttonWrapper = document.createElement("div");
   buttonWrapper.className = "form-group button-wrapper";
 
@@ -116,16 +154,16 @@ document.addEventListener("DOMContentLoaded", () => {
   joinBtn.type = "submit";
   joinBtn.className = "join-btn";
   joinBtn.textContent = "Agree & Join";
-
   buttonWrapper.appendChild(joinBtn);
 
+  // === Third-Party Login Buttons ===
   const divider = document.createElement("div");
   divider.className = "divider";
   divider.textContent = "or";
 
   const googleBtn = document.createElement("button");
   googleBtn.className = "google-btn";
-  googleBtn.innerHTML = `
+  googleBtn.innerHTML = ` 
     <img src="https://cdn-icons-png.flaticon.com/512/300/300221.png" alt="Google icon" />
     Continue with Google
   `;
@@ -145,15 +183,10 @@ document.addEventListener("DOMContentLoaded", () => {
     </span>
   `;
 
+  // === Assemble the Form and Page Elements ===
   form.append(
-    firstNameGroup,
-    lastNameGroup,
-    usernameGroup,
     emailGroup,
     passwordGroup,
-    confirmGroup,
-    birthDateGroup,
-    pictureGroup,
     rememberGroup,
     legalNote,
     buttonWrapper,
@@ -167,61 +200,60 @@ document.addEventListener("DOMContentLoaded", () => {
   wrapper.appendChild(box);
   document.body.appendChild(wrapper);
 
-  const footer = document.createElement("footer");
-  footer.className = "footer";
-  footer.innerHTML = `
-    <p>
-      © 2025 WorkMates ·
-      <a href="#">About</a> ·
-      <a href="#">Contact</a> ·
-      <a href="#">Terms</a> ·
-      <label for="language">🌐 Language:</label>
-      <select id="language" name="language">
-        <option value="en">English</option>
-        <option value="he">עברית</option>
-        <option value="ar">العربية</option>
-      </select>
-    </p>
-  `;
+  // === Footer ===
+  const footer = createFooter();
   document.body.appendChild(footer);
 
-  // === Form Submission
+  // === Form Submission ===
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    // Trigger blur events to run validations
+    emailInput.dispatchEvent(new Event("blur"));
+    passwordInput.dispatchEvent(new Event("blur"));
+
+    // Prevent submission if email or password are invalid
+    if (
+      emailInput.classList.contains("invalid-input") ||
+      passwordInput.classList.contains("invalid-input")
+    ) {
+      return;
+    }
+
     const formData = new FormData(form);
+    const errors = [];
+    const emailValue = formData.get("email").trim();
+    const passwordValue = formData.get("password");
 
-    const errors = validateRegistration({
-      firstName: formData.get("fName"),
-      lastName: formData.get("lName"),
-      username: formData.get("username"),
-      email: formData.get("email"),
-      password: formData.get("password"),
-      confirmPassword: formData.get("confirmPassword"),
-      birthDate: formData.get("birthDate"),
-      profilePicUrl: ""
-    });
+    if (!emailValue || !/^\S+@\S+\.\S+$/.test(emailValue)) {
+      errors.push("Please enter a valid email address.");
+    }
+    if (!passwordValue || passwordValue.length < 8) {
+      errors.push("Password must be at least 8 characters.");
+    }
 
-    const errorBox = document.getElementById("formErrors");
-    if (errorBox) errorBox.innerHTML = "";
+    errorList.innerHTML = "";
+    errorList.classList.remove("visible");
 
     if (errors.length > 0) {
+      errorList.classList.add("visible");
+      const ul = document.createElement("ul");
       errors.forEach((err) => {
         const li = document.createElement("li");
-        li.textContent = err;
-        errorBox.appendChild(li);
+        li.textContent = `• ${err}`;
+        ul.appendChild(li);
       });
+      errorList.innerHTML = "<p><strong>There were some issues:</strong></p>";
+      errorList.appendChild(ul);
       return;
     }
 
     try {
       const result = await apiPostFormData("/api/auth/register", formData);
-
       if (!result.success) {
         alert(result.error || "Registration failed");
         return;
       }
-
       alert("Registered successfully!");
       window.location.href = "/login.html";
     } catch (err) {

@@ -1,3 +1,5 @@
+// routes/userRoutes.js
+
 const express = require("express");
 const router = express.Router();
 const verifyToken = require("../middlewares/authMiddleware");
@@ -11,7 +13,9 @@ router.get("/me", verifyToken, async (req, res) => {
             .execute("sp_GetUserById");
 
         const user = result.recordset[0];
-        if (!user) return res.status(404).json({ message: "User not found" });
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
 
         res.status(200).json({
             id: user.UserID,

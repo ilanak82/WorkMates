@@ -2,9 +2,11 @@ export async function apiPostFormData(endpoint, formData) {
   try {
     const response = await fetch(endpoint, {
       method: "POST",
-      body: formData
+      body: formData,
+      credentials: "include"  // Sends cookies with the request if needed
     });
 
+    // Attempt to parse JSON response
     const data = await response.json();
 
     return {

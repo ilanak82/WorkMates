@@ -1,36 +1,33 @@
 // config/db.js
 
-const sql = require('mssql');
+const sql = require("mssql");
 
 const config = {
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     server: process.env.DB_SERVER,
     database: process.env.DB_NAME,
+    port: parseInt(process.env.DB_PORT, 10) || 1433,
     options: {
-        encrypt: true, // Set to true if you're using Azure or remote server
-        trustServerCertificate: true, // Set to true for localhost
+        encrypt: true,
+        trustServerCertificate: true,
     },
-    port: parseInt(process.env.DB_PORT || '1433'),
     pool: {
         max: 10,
         min: 0,
-        idleTimeoutMillis: 30000, // Close idle connections after 30 seconds
+        idleTimeoutMillis: 30000,
     },
 };
 
 const poolPromise = new sql.ConnectionPool(config)
     .connect()
-    .then((pool) => {
-        console.log('✅ MSSQL connected');
+    .then(pool => {
+        console.log("✅ MSSQL connected");
         return pool;
     })
-    .catch((err) => {
-        console.error('❌ Database connection failed:', err);
+    .catch(err => {
+        console.error("❌ Database connection failed:", err);
         process.exit(1);
     });
 
-module.exports = {
-    sql,
-    poolPromise,
-};
+module.exports = { sql, poolPromise };

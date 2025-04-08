@@ -38,16 +38,19 @@ WorkMates
 │  │  ├─ logout.js
 │  │  ├─ profile.js
 │  │  ├─ register.js
+│  │  ├─ registration-details.js
 │  │  ├─ settings.js
 │  │  ├─ users.js
 │  │  └─ utils
 │  │     ├─ api.js
 │  │     ├─ dom.js
 │  │     ├─ helpers.js
+│  │     ├─ layout.js
 │  │     └─ validators.js
 │  ├─ login.html
 │  ├─ profile.html
 │  ├─ register.html
+│  ├─ registration-details.html
 │  ├─ settings.html
 │  └─ users.html
 ├─ README.md

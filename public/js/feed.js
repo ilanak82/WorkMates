@@ -1,38 +1,38 @@
+// public/js/feed.js
+
 document.addEventListener("DOMContentLoaded", () => {
   const body = document.body;
 
-  // === Navbar ===
+  // === Navbar (Custom for Feed) ===
   const navbar = document.createElement("nav");
   navbar.className = "navbar";
 
-  // === LEFT: Logo + Search ===
+  // -- LEFT: Logo + Search --
   const navbarLeft = document.createElement("div");
   navbarLeft.className = "navbar-left";
 
-  // Logo
+  // Logo container
   const logoContainer = document.createElement("div");
   logoContainer.className = "navbar-brand";
   logoContainer.innerHTML = `
-  <a href="index.html">
-    <img class="logo" src="img/logo.png" alt="WorkMates Logo">
-  </a>
-`;
+    <a href="index.html">
+      <img class="logo" src="img/logo.png" alt="WorkMates Logo">
+    </a>
+  `;
 
-  // Search bar
+  // Search bar container
   const searchContainer = document.createElement("div");
   searchContainer.className = "search-container";
-  searchContainer.innerHTML = `
-  <input type="text" placeholder="Search..." class="search-input">
-`;
+  searchContainer.innerHTML = `<input type="text" placeholder="Search..." class="search-input">`;
 
   navbarLeft.appendChild(logoContainer);
   navbarLeft.appendChild(searchContainer);
 
-  // === RIGHT: Icons + Me Dropdown ===
+  // -- RIGHT: Icons + Me Dropdown --
   const navbarRight = document.createElement("div");
   navbarRight.className = "navbar-icons";
 
-  // Navbar icons list (using original suitcase icon for Jobs)
+  // Array of navigation items
   const navItems = [
     { icon: "fa-house", label: "Home", href: "feed.html" },
     { icon: "fa-user", label: "Profile", href: "profile.html" },
@@ -42,14 +42,13 @@ document.addEventListener("DOMContentLoaded", () => {
     { icon: "fa-bell", label: "Notifications", href: "#" },
   ];
 
-  // Add icons and dividers
+  // Append nav items with dividers
   navItems.forEach((item, index) => {
     if (index > 0) {
       const divider = document.createElement("div");
       divider.className = "navbar-divider";
       navbarRight.appendChild(divider);
     }
-
     const link = document.createElement("a");
     link.href = item.href;
     link.className = "navbar-icon";
@@ -57,49 +56,47 @@ document.addEventListener("DOMContentLoaded", () => {
     navbarRight.appendChild(link);
   });
 
-  // Divider before "Me"
+  // Divider before "Me" dropdown
   const dividerBeforeMe = document.createElement("div");
   dividerBeforeMe.className = "navbar-divider";
   navbarRight.appendChild(dividerBeforeMe);
 
-  // "Me" dropdown with full structure
+  // "Me" dropdown
   const meDropdown = document.createElement("div");
   meDropdown.className = "navbar-icon me-icon";
   meDropdown.style.position = "relative";
   meDropdown.style.cursor = "pointer";
   meDropdown.innerHTML = `
-  <i class="fa-solid fa-user-circle"></i>
-  <span>Me <i class="fa-solid fa-caret-down" style="font-size: 0.7rem; margin-left: 4px;"></i></span>
-  <div class="me-dropdown-menu" style="display:none; position:absolute; background:#fff; border:1px solid #ccc; padding:10px; border-radius:8px; top:60px; right:0px; z-index:1001; min-width: 160px;">
-    <a href="#" class="dropdown-link">Admin Panel</a><br>
-    <a href="#" class="dropdown-link">Settings</a><br>
-    <a href="#" class="dropdown-link">Dark Mode</a>
-    <hr style="margin: 8px 0;">
-    <a href="#" id="signOutLink" class="dropdown-link">Sign out</a>
-  </div>
-`;
+    <i class="fa-solid fa-user-circle"></i>
+    <span>Me <i class="fa-solid fa-caret-down" style="font-size: 0.7rem; margin-left: 4px;"></i></span>
+    <div class="me-dropdown-menu" style="display:none; position:absolute; background:#fff; border:1px solid #ccc; padding:10px; border-radius:8px; top:60px; right:0px; z-index:1001; min-width: 160px;">
+      <a href="#" class="dropdown-link">Admin Panel</a><br>
+      <a href="#" class="dropdown-link">Settings</a><br>
+      <a href="#" class="dropdown-link">Dark Mode</a>
+      <hr style="margin: 8px 0;">
+      <a href="#" id="signOutLink" class="dropdown-link">Sign out</a>
+    </div>
+  `;
 
-  // Toggle dropdown visibility
+  // Toggle dropdown visibility on click
   meDropdown.addEventListener("click", (e) => {
     e.stopPropagation();
     const menu = meDropdown.querySelector(".me-dropdown-menu");
     menu.style.display = menu.style.display === "none" ? "block" : "none";
   });
-
-  // Hide dropdown on outside click
+  // Hide dropdown when clicking outside
   document.addEventListener("click", () => {
     const menu = meDropdown.querySelector(".me-dropdown-menu");
     menu.style.display = "none";
   });
-
   navbarRight.appendChild(meDropdown);
 
-  // === Final Assembly ===
+  // Final Navbar assembly
   navbar.appendChild(navbarLeft);
   navbar.appendChild(navbarRight);
-  document.body.appendChild(navbar);
+  body.appendChild(navbar);
 
-  // ✅ Sign out listener (now correctly placed)
+  // === Sign Out Listener ===
   const signOutLink = document.getElementById("signOutLink");
   if (signOutLink) {
     signOutLink.addEventListener("click", async (e) => {
@@ -109,7 +106,6 @@ document.addEventListener("DOMContentLoaded", () => {
           method: "POST",
           credentials: "include",
         });
-
         if (res.ok) {
           localStorage.removeItem("user");
           window.location.href = "/login.html";
@@ -123,12 +119,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // === Main Layout Wrapper ===
+  // === Main Layout Wrapper (3-Column Feed Layout) ===
   const mainLayout = document.createElement("div");
   mainLayout.className = "feed-layout";
   body.appendChild(mainLayout);
 
-  // === Left Sidebar ===
+  // Left Sidebar
   const leftSidebar = document.createElement("aside");
   leftSidebar.className = "feed-sidebar left";
   leftSidebar.innerHTML = `
@@ -138,11 +134,11 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
   `;
 
-  // === Center Feed ===
+  // Center Feed Content
   const feedContent = document.createElement("main");
   feedContent.className = "feed-main";
 
-  // === Post Composer ===
+  // Post Composer (for creating new posts)
   const composer = document.createElement("div");
   composer.className = "post-composer";
   composer.innerHTML = `
@@ -159,14 +155,14 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
   `;
 
-  // Feed container (where posts will load)
+  // Container for posts
   const postsContainer = document.createElement("div");
   postsContainer.className = "posts-container";
 
   feedContent.appendChild(composer);
   feedContent.appendChild(postsContainer);
 
-  // === Right Sidebar ===
+  // Right Sidebar
   const rightSidebar = document.createElement("aside");
   rightSidebar.className = "feed-sidebar right";
   rightSidebar.innerHTML = `
@@ -180,9 +176,8 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
   `;
 
-  // === Assemble 3-Column Layout ===
+  // Assemble the 3-column layout
   mainLayout.appendChild(leftSidebar);
   mainLayout.appendChild(feedContent);
   mainLayout.appendChild(rightSidebar);
 });
-

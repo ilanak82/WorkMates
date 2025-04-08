@@ -1,4 +1,5 @@
 // middlewares/dbMiddleware.js
+
 const { poolPromise } = require("../config/db");
 
 const attachDb = async (req, res, next) => {

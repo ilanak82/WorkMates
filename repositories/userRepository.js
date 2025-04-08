@@ -1,14 +1,15 @@
 // repositories/userRepository.js
-const sql = require('mssql');
-const poolPromise = require('../config/db');
+
+const sql = require("mssql");
+const { poolPromise } = require("../config/db");
 
 // Get user by username (used in auth and profile fetch)
 async function getUserByUsername(username) {
     const pool = await poolPromise;
     const result = await pool
         .request()
-        .input('username', sql.VarChar, username)
-        .query('SELECT * FROM tblUser WHERE username = @username');
+        .input("username", sql.VarChar, username)
+        .query("SELECT * FROM tblUser WHERE username = @username");
     return result.recordset[0];
 }
 
@@ -17,22 +18,22 @@ async function createUser({ username, email, password }) {
     const pool = await poolPromise;
     await pool
         .request()
-        .input('username', sql.VarChar, username)
-        .input('email', sql.VarChar, email)
-        .input('password', sql.VarChar, password)
+        .input("username", sql.VarChar, username)
+        .input("email", sql.VarChar, email)
+        .input("password", sql.VarChar, password)
         .query(`
       INSERT INTO tblUser (username, email, password)
       VALUES (@username, @email, @password)
     `);
 }
 
-// Get user profile info (excluding password)
+// Get user profile info (excluding sensitive data)
 async function getUserProfileByUsername(username) {
     const pool = await poolPromise;
     const result = await pool
         .request()
-        .input('username', sql.VarChar, username)
-        .query('SELECT id, username, email, name FROM tblUser WHERE username = @username');
+        .input("username", sql.VarChar, username)
+        .query("SELECT id, username, email, name FROM tblUser WHERE username = @username");
     return result.recordset[0];
 }
 
@@ -41,9 +42,9 @@ async function updateUserProfile(username, { name, email }) {
     const pool = await poolPromise;
     await pool
         .request()
-        .input('username', sql.VarChar, username)
-        .input('name', sql.VarChar, name)
-        .input('email', sql.VarChar, email)
+        .input("username", sql.VarChar, username)
+        .input("name", sql.VarChar, name)
+        .input("email", sql.VarChar, email)
         .query(`
       UPDATE tblUser
       SET name = @name, email = @email
@@ -51,13 +52,13 @@ async function updateUserProfile(username, { name, email }) {
     `);
 }
 
-// Delete user (optional: you can switch to soft-delete later)
+// Delete user (you can modify this for soft-delete later)
 async function deleteUser(username) {
     const pool = await poolPromise;
     await pool
         .request()
-        .input('username', sql.VarChar, username)
-        .query('DELETE FROM tblUser WHERE username = @username');
+        .input("username", sql.VarChar, username)
+        .query("DELETE FROM tblUser WHERE username = @username");
 }
 
 module.exports = {
@@ -65,5 +66,5 @@ module.exports = {
     createUser,
     getUserProfileByUsername,
     updateUserProfile,
-    deleteUser
+    deleteUser,
 };

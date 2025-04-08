@@ -22,10 +22,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 30px;
+  padding: 12px 30px;
   min-height: 82px;
-  padding-top: 12px;
-  padding-bottom: 12px;
   box-sizing: border-box;
   position: relative;
   z-index: 1000;
@@ -78,9 +76,7 @@ body {
   align-items: center;
   gap: 10px;
   margin-left: auto;
-  height: 100%;
   padding-bottom: 10px;
-  /* Fix vertical alignment */
 }
 
 .navbar-links .join-btn,
@@ -183,10 +179,7 @@ body {
   flex: 1;
 }
 
-.register-box p {
-  margin-bottom: 20px;
-}
-
+.register-box p,
 .login-box p {
   margin-bottom: 20px;
 }
@@ -387,7 +380,7 @@ input[type="checkbox"]:checked::after {
   text-decoration: underline;
 }
 
-/* === Final navbar divider & icon fix (keep both dividers visually equal) === */
+/* === Final navbar divider & icon fix === */
 .navbar-divider {
   width: 1px;
   height: 30px;
@@ -410,8 +403,6 @@ input[type="checkbox"]:checked::after {
 }
 
 /* === Feed Enhancements === */
-
-
 
 /* === Feed Page Layout === */
 .feed-container {
@@ -474,8 +465,6 @@ input[type="checkbox"]:checked::after {
   background-color: #1558a0;
 }
 
-
-
 /* === Navbar Dropdown & Search === */
 .search-input {
   padding: 6px 10px;
@@ -516,8 +505,6 @@ input[type="checkbox"]:checked::after {
   border: none;
   border-top: 1px solid #ddd;
 }
-
-
 
 /* === Feed Layout (Three-Pane) === */
 .feed-layout {
@@ -592,4 +579,61 @@ input[type="checkbox"]:checked::after {
 
 .composer-actions button:hover {
   background-color: #1558a0;
+}
+
+/* === Form errors === */
+.form-errors {
+  display: none;
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #ffe0e0;
+  border: 1px solid #ff4d4d;
+  color: #990000;
+  font-size: 0.95rem;
+}
+
+.form-errors.visible {
+  display: block;
+}
+
+.form-errors ul {
+  margin-top: 5px;
+  padding-left: 20px;
+}
+
+.form-errors li {
+  list-style-type: none;
+  margin-bottom: 4px;
+}
+
+/* Optional: visually highlight the confirm password input if invalid */
+input:invalid[name="confirmPassword"] {
+  border: 2px solid #ff4d4d;
+  background-color: #fff0f0;
+}
+
+/* New styles for password container and eye icon */
+.password-container {
+  position: relative;
+}
+
+.password-eye-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+/* Error message styling */
+.error-message {
+  color: #d83933;
+  font-size: 14px;
+  margin-top: 4px;
+  display: block;
+}
+
+.invalid-input {
+  border: 1px solid #d83933 !important;
 }
